@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """Filtered logger."""
 from typing import List, Tuple
+from mysql.connector import connection
+import mysql.connector
+import os
 import re
 import logging
 
@@ -37,6 +40,16 @@ def get_logger() -> logging.Logger:
     handler.setFormatter(RedactingFormatter(PII_FIELDS))
     logger.addHandler(handler)
     return logger
+
+
+def get_db() -> connection.MySQLConnection:
+    """Returns a connector to the database."""
+    return mysql.connector.connect(
+        user=os.getenv("PERSONAL_DATA_DB_USERNAME"),
+        password=os.getenv("PERSONAL_DATA_DB_PASSWORD"),
+        host=os.getenv("PERSONAL_DATA_DB_HOST"),
+        database=os.getenv("PERSONAL_DATA_DB_NAME")
+    )
 
 
 def filter_datum(fields: List[str],
