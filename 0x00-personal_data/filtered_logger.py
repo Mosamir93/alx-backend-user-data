@@ -24,7 +24,9 @@ class RedactingFormatter(logging.Formatter):
                                   record.msg, self.SEPARATOR)
         return super().format(record)
 
+
 PII_FIELDS: Tuple[str, ...] = ("name", "email", "phone", "ssn", "password")
+
 
 def get_logger() -> logging.Logger:
     """Function that takes no arguments and returns a logging.Logger object."""
@@ -35,6 +37,7 @@ def get_logger() -> logging.Logger:
     handler.setFormatter(RedactingFormatter(PII_FIELDS))
     logger.addHandler(handler)
     return logger
+
 
 def filter_datum(fields: List[str],
                  redaction: str,
