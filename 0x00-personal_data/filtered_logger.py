@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Filtered logger."""
-from typing import List
+from typing import List, Tuple
 import re
 import logging
 
@@ -24,6 +24,17 @@ class RedactingFormatter(logging.Formatter):
                                   record.msg, self.SEPARATOR)
         return super().format(record)
 
+PII_FIELDS: Tuple[str, ...] = ("name", "email", "phone", "ssn", "password")
+
+def get_logger() -> logging.Logger:
+    """Function that takes no arguments and returns a logging.Logger object."""
+    logger = logging.getLogger("user_data")
+    logger.setLevel(logging.INFO)
+    logger.propagate = False
+    handler = logging.StreamHandler()
+    handler.setFormatter(RedactingFormatter(PII_FIELDS))
+    logger.addHandler(handler)
+    return logger
 
 def filter_datum(fields: List[str],
                  redaction: str,
