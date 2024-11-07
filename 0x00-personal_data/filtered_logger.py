@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Filtered logger."""
 from typing import List, Tuple
-from mysql.connector import connection
 import mysql.connector
 import os
 import re
@@ -42,7 +41,7 @@ def get_logger() -> logging.Logger:
     return logger
 
 
-def get_db() -> connection.MySQLConnection:
+def get_db() -> mysql.connector.connection.MySQLConnection:
     """Returns a connector to the database."""
     return mysql.connector.connect(
         user=os.getenv("PERSONAL_DATA_DB_USERNAME") or "root",
