@@ -6,6 +6,14 @@ from db import DB
 from user import User
 
 
+def _hash_password(password: str) -> bytes:
+    """A method that takes in a password
+    string arguments and returns bytes."""
+    salt = gensalt()
+    hashed_password = hashpw(password.encode(), salt)
+    return hashed_password
+
+
 class Auth:
     """Auth class to interact with the authentication database.
     """
@@ -24,10 +32,3 @@ class Auth:
             user = self._db.add_user(email=email,
                                      hashed_password=hashed_password)
             return user
-
-    def _hash_password(self, password: str) -> bytes:
-        """A method that takes in a password
-        string arguments and returns bytes."""
-        salt = gensalt()
-        hashed_password = hashpw(password.encode(), salt)
-        return hashed_password
