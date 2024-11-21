@@ -28,8 +28,8 @@ def index():
     return jsonify({"message": "Bienvenue"})
 
 
-@app.route("/sessions", methods=["POST"])
-def login():
+@app.route("/sessions", methods=["POST"], strict_slashes=False)
+def login() -> str:
     """Logs a user in and creates a new session."""
     email = request.form.get("email")
     password = request.form.get("password")
