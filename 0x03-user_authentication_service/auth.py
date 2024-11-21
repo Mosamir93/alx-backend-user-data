@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Auth module."""
 from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy.exc import InvalidRequestError
 from bcrypt import hashpw, gensalt, checkpw
 from db import DB
 from user import User
@@ -93,5 +94,5 @@ class Auth:
             self._db.update_user(user.id,
                                  hashed_password=hashed_password,
                                  reset_token=None)
-        except NoResultFound:
+        except NoResultFound or InvalidRequestError:
             raise ValueError
